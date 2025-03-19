@@ -258,6 +258,16 @@ const Workspace = {
     const data = await response.json();
     return { response, data };
   },
+  saveSharepointUrl: async function (slug, link) {
+    const response = await fetch(`${API_BASE}/workspace/${slug}/updateSharepoint`, {
+      method: "POST",
+      body: JSON.stringify({ sharepointUrl: link }),
+      headers: baseHeaders(),
+    });
+
+    const data = await response.json();
+    return { response, data };
+  },
 
   getSuggestedMessages: async function (slug) {
     return await fetch(`${API_BASE}/workspace/${slug}/suggested-messages`, {

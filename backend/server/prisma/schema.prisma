@@ -125,7 +125,7 @@ model workspaces {
   slug                         String                         @unique
   vectorTag                    String?
   createdAt                    DateTime                       @default(now())
-  openAiTemp                   Float?
+  openAiTemp                   Float?                         @default(20)
   openAiHistory                Int                            @default(20)
   lastUpdatedAt                DateTime                       @default(now())
   openAiPrompt                 String?
@@ -145,6 +145,7 @@ model workspaces {
   embed_configs                embed_configs[]
   threads                      workspace_threads[]
   workspace_agent_invocations  workspace_agent_invocations[]
+  sharepointUrl                String?
 }
 
 model workspace_threads {
