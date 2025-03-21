@@ -108,6 +108,43 @@ function workspaceEndpoints(app) {
   );
 
   app.post(
+    "/workspace/:slug/updateSharepoint",
+    [validatedRequest, flexUserRoleValid([ROLES.admin, ROLES.manager])],
+    async (request, response) => {
+      try {
+        const user = await userFromSession(request, response);
+        const { slug = null } = request.params;
+        const { sharepointUrl } = reqBody(request);
+        const currWorkspace = multiUserMode(response)
+          ? await Workspace.getWithUser(user, { slug })
+          : await Workspace.get({ slug });
+
+        if (!currWorkspace) {
+          response.sendStatus(400).end();
+          return;
+        }
+
+        const updatedWorkspace = await Workspace.update(currWorkspace.id, {
+          sharepointUrl,
+        });
+
+        //trigger n8n workflow to sync sharepoint
+        await fetch("http://n8n:5678/webhook/sync-sharepoint", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        response.status(200).json({ workspace: updatedWorkspace });
+      } catch (e) {
+        console.error(e.message, e);
+        response.sendStatus(500).end();
+      }
+    }
+  );
+
+  app.post(
     "/workspace/:slug/upload",
     [
       validatedRequest,

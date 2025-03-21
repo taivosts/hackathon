@@ -35,6 +35,7 @@ const Workspace = {
     "agentModel",
     "queryRefusalResponse",
     "vectorSearchMode",
+    "sharepointUrl",
   ],
 
   validations: {
