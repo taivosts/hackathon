@@ -1,3 +1,5 @@
+import 'package:ai_dreamer/network/repositories/mock/mock_repositories.dart';
+import 'package:ai_dreamer/resource/app_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +31,13 @@ class _AppState extends State<App> {
       dio: _dio,
       previousCredentials: AppSession.shared.getCredentials(),
     );
-    _anythingLLMRepository = RemoteAnythingLLMRepository(dio: _dio);
-    _userRepository = RemoteUserRepository(dio: _dio);
+    if (AppConstants.isMockAPI) {
+      _userRepository = MockUserRepository();
+      _anythingLLMRepository = MockAnythingLLMRepository();
+    } else {
+      _anythingLLMRepository = RemoteAnythingLLMRepository(dio: _dio);
+      _userRepository = RemoteUserRepository(dio: _dio);
+    }
   }
 
   @override

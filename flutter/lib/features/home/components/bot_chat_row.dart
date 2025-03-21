@@ -35,7 +35,10 @@ class BotChatRow extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: Text(
               sources.toSet().join('\n'),
-              style: AppFont.helperText().copyWith(color: AppColors.gray4),
+              style: AppFont.helperText().copyWith(
+                color: AppColors.gray4,
+                fontSize: 9,
+              ),
             ),
           ),
         ],

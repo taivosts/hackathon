@@ -56,7 +56,7 @@ class AppRouterFactory {
         AppLogger.logDebug('Redirect: ${state.fullPath}');
         // Set default status bar style is light
         SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+          const SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
         );
 
         final bool isLaunching = state.fullPath == SplashPage.path;

@@ -52,31 +52,37 @@ class _BodyState extends State<Body> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.messages.length,
-                        itemBuilder: (_, index) {
-                          if (state.messages.isEmpty) {
-                            return const SizedBox();
-                          }
-
-                          if (state.messages[index].isGenerated) {
-                            return BotChatRow(
-                              message: state.messages[index].text,
-                              sources: state.messages[index].sources?.map((e) => e.title).toList() ?? [],
-                            );
-                          } else {
-                            if (index == 0) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: UserChatRow(
-                                    message: state.messages[index].text),
-                              );
+                      child: GestureDetector(
+                        onTap: () => FocusScope.of(context).unfocus(),
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.messages.length,
+                          itemBuilder: (_, index) {
+                            if (state.messages.isEmpty) {
+                              return const SizedBox();
                             }
-                            return UserChatRow(
-                                message: state.messages[index].text);
-                          }
-                        },
+
+                            if (state.messages[index].isGenerated) {
+                              return BotChatRow(
+                                message: state.messages[index].text,
+                                sources: state.messages[index].sources
+                                        ?.map((e) => e.title)
+                                        .toList() ??
+                                    [],
+                              );
+                            } else {
+                              if (index == 0) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 16),
+                                  child: UserChatRow(
+                                      message: state.messages[index].text),
+                                );
+                              }
+                              return UserChatRow(
+                                  message: state.messages[index].text);
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),

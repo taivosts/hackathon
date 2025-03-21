@@ -9,6 +9,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'Hackathon - AI Dreamers Teams',
       debugShowCheckedModeBanner: false,
       routerConfig: AppRouterFactory.createRouter(context),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
