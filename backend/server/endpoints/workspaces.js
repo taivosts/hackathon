@@ -128,6 +128,14 @@ function workspaceEndpoints(app) {
           sharepointUrl,
         });
 
+        //trigger n8n workflow to sync sharepoint
+        await fetch("http://n8n:5678/webhook/sync-sharepoint", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
         response.status(200).json({ workspace: updatedWorkspace });
       } catch (e) {
         console.error(e.message, e);
