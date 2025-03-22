@@ -112,6 +112,11 @@ const TRANSLATIONS = {
       validating: "Validating...",
       "forgot-pass": "Forgot password",
       reset: "Reset",
+      or: "or"
+    },
+    microsoft: {
+      continue: "Continue with Microsoft",
+      error: "Microsoft login failed"
     },
     "sign-in": {
       start: "Sign in to your",

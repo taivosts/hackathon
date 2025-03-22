@@ -8,6 +8,7 @@ import { useModal } from "@/hooks/useModal";
 import RecoveryCodeModal from "@/components/Modals/DisplayRecoveryCodeModal";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
+import MicrosoftLogin from "@/components/LoginButtons/MicrosoftLogin";
 
 const RecoveryForm = ({ onSubmit, setShowRecoveryForm }) => {
   const [username, setUsername] = useState("");
@@ -176,6 +177,7 @@ export default function MultiUserAuth() {
   const [showRecoveryForm, setShowRecoveryForm] = useState(false);
   const [showResetPasswordForm, setShowResetPasswordForm] = useState(false);
   const [customAppName, setCustomAppName] = useState(null);
+  const [showMicrosoftLogin, setShowMicrosoftLogin] = useState(false);
 
   const {
     isOpen: isRecoveryCodeModalOpen,
@@ -267,6 +269,18 @@ export default function MultiUserAuth() {
     fetchCustomAppName();
   }, []);
 
+  useEffect(() => {
+    const checkMicrosoftAuth = async () => {
+      try {
+        const { enabled } = await System.microsoftOAuthEnabled();
+        setShowMicrosoftLogin(enabled);
+      } catch (error) {
+        console.error("Failed to check Microsoft auth status:", error);
+      }
+    };
+    checkMicrosoftAuth();
+  }, []);
+
   if (showRecoveryForm) {
     return (
       <RecoveryForm
@@ -299,6 +313,21 @@ export default function MultiUserAuth() {
             </div>
           </div>
           <div className="w-full px-4 md:px-12">
+            {showMicrosoftLogin && (
+              <div className="mb-4">
+                <MicrosoftLogin />
+                <div className="relative my-4">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-theme-text-secondary/20"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-theme-bg-secondary text-theme-text-secondary">
+                      {t("login.multi-user.or")}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="w-full flex flex-col gap-y-4">
               <div className="w-screen md:w-full md:px-0 px-6">
                 <input

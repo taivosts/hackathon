@@ -736,9 +736,34 @@ const System = {
       });
   },
 
+  microsoftOAuthEnabled: async () => {
+    try {
+      const { enabled, loginUrl } = await this.handleRequest('/api/system/microsoft-oauth-status');
+      return { enabled, loginUrl };
+    } catch (error) {
+      console.error('Error checking Microsoft OAuth status:', error);
+      return { enabled: false };
+    }
+  },
+
   experimentalFeatures: {
     liveSync: LiveDocumentSync,
     agentPlugins: AgentPlugins,
+  },
+
+  async getMicrosoftOAuthStatus() {
+    try {
+      const response = await fetch('/api/microsoft-oauth-status', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Failed to fetch Microsoft OAuth status');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching Microsoft OAuth status:', error);
+      return { enabled: false, loginUrl: null };
+    }
   },
 };
 

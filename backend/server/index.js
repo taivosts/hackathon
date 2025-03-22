@@ -27,6 +27,8 @@ const { experimentalEndpoints } = require("./endpoints/experimental");
 const { browserExtensionEndpoints } = require("./endpoints/browserExtension");
 const { communityHubEndpoints } = require("./endpoints/communityHub");
 const { agentFlowEndpoints } = require("./endpoints/agentFlows");
+const { MicrosoftAuthManager } = require("./utils/auth/microsoft");
+const { router: microsoftOAuthRouter } = require("./endpoints/oauth/microsoft");
 const app = express();
 const apiRouter = express.Router();
 const FILE_LIMIT = "3GB";
@@ -63,6 +65,9 @@ experimentalEndpoints(apiRouter);
 developerEndpoints(app, apiRouter);
 communityHubEndpoints(apiRouter);
 agentFlowEndpoints(apiRouter);
+
+// OAuth endpoints
+app.use('/api', microsoftOAuthRouter);
 
 // Externally facing embedder endpoints
 embeddedEndpoints(apiRouter);
@@ -128,6 +133,21 @@ if (process.env.NODE_ENV !== "development") {
 app.all("*", function (_, response) {
   response.sendStatus(404);
 });
+
+// Initialize authentication managers
+async function initMicrosoftAuthManager() {
+  try {
+    const microsoftClient = new MicrosoftAuthManager();
+    if (microsoftClient.isEnabled) {
+      app.set('microsoftAuthManager', microsoftClient);
+      console.log('Microsoft OAuth initialized successfully.');
+    }
+  } catch (error) {
+    console.error('Failed to initialize Microsoft OAuth:', error);
+  }
+}
+
+initMicrosoftAuthManager();
 
 // In non-https mode we need to boot at the end since the server has not yet
 // started and is `.listen`ing.
