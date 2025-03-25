@@ -1,0 +1,59 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "default",
+      "horizontalAlignment": "center"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "Chào mừng tới AI Dreamer!",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Bạn có thể tìm kiếm và đặt câu hỏi về Saigon Technology. Tôi ở đây để giúp bạn tìm thông tin về chính sách công ty, quy định, và thông tin chung.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Thông tin chung về công ty",
+      "data": {
+        "message": "Thông tin chung về công ty",
+        "id": "startDialog",
+        "action": "openDialog"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Quy định về ISO",
+      "data": {
+        "message": "Quy định về ISO",
+        "id": "startDialog",
+        "action": "openDialog"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Quy định về An toàn thông tin",
+      "data": {
+        "message": "Quy định về An toàn thông tin",
+        "id": "startDialog",
+        "action": "openDialog"
+      }
+    }
+  ]
+}

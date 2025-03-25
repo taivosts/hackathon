@@ -1,0 +1,12 @@
+﻿global using AIDreamer_Bot_04.Constants;
+global using AIDreamer_Bot_04.Dialogs;
+global using AIDreamer_Bot_04.Models;
+global using AIDreamer_Bot_04.Options;
+global using AIDreamer_Bot_04.Services;
+global using AIDreamer_Bot_04;
+global using AIDreamer_Bot_04.Bots;
+global using AIDreamer_Bot_04.Handlers;
+global using Microsoft.Bot.Builder;
+global using Microsoft.Bot.Builder.Dialogs;
+global using Microsoft.Bot.Schema;
+global using Microsoft.Extensions.Options;
