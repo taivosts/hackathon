@@ -47,7 +47,6 @@ export default function UploadFile({
     e.preventDefault();
     setLoading(true);
     setLoadingMessage("Saving url...");
-    setFetchingUrl(true);
     const formEl = e.target;
     const form = new FormData(formEl);
     const { response, data } = await Workspace.saveSharepointUrl(
@@ -179,6 +178,8 @@ export default function UploadFile({
             : t("connectors.upload.fetch-website")}
         </button>
       </form>
+      <div className="text-center text-white text-opacity-50 text-xs font-medium w-[560px] py-2">
+      </div>
       <form onSubmit={handleSharepointUrl} className="flex gap-x-2">
         <input
           name="sharepointUrl"
