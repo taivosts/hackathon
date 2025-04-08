@@ -172,7 +172,76 @@ function apiUserManagementEndpoints(app) {
         if (!user)
           return response.status(404).json({ error: "User not found" });
 
-        const workspaces = await Workspace.get({
+        const workspaces = await Workspace.where({
+          workspace_users: {
+            some: {
+              user_id: user?.id,
+            },
+          }
+        });
+        response.status(200).json({ workspaces });
+      } catch (e) {
+        console.error(e.message, e);
+        response.sendStatus(500).end();
+      }
+    }
+  )
+
+  app.get(
+    "/v1/user/by-username/:username/workspaces",
+    [validApiKey],
+    async (request, response) => {
+      /*
+      #swagger.tags = ['User Management']
+      #swagger.description = 'Get workspaces for a user by username'
+      #swagger.parameters['username'] = {
+        in: 'path',
+        description: 'The username of the user to retrieve workspaces for',
+        required: true,
+        type: 'string'
+      }
+      #swagger.responses[200] = {
+        content: {
+          "application/json": {
+            schema: {
+              type: 'object',
+              example: {
+                workspaces: [
+                  {
+                    "id": 1,
+                    "name": "Workspace 1"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Workspace 2"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    #swagger.responses[403] = {
+      schema: {
+        "$ref": "#/definitions/InvalidAPIKey"
+      }
+    }
+     #swagger.responses[401] = {
+      description: "Instance is not in Multi-User mode. Permission denied.",
+    }
+      */
+      try {
+        if (!multiUserMode(response))
+          return response
+            .status(401)
+            .send("Instance is not in Multi-User mode. Permission denied.");
+
+        const { username } = request.params;
+        const user = await User.get({ username });
+        if (!user)
+          return response.status(404).json({ error: "User not found" });
+
+        const workspaces = await Workspace.where({
           workspace_users: {
             some: {
               user_id: user?.id,

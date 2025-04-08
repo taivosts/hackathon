@@ -14,7 +14,7 @@
         "outline": "outline.png"
     },
     "name": {
-        "short": "AIDreamer_${{APP_NAME_SUFFIX}}",
+        "short": "AIDreamer (${{APP_NAME_SUFFIX}})",
         "full": "full name for AI Dreamer"
     },
   "description": {
@@ -33,15 +33,6 @@
         "supportsFiles": false,
         "isNotificationOnly": false,
         "commandLists": [
-            {
-              "scopes": ["personal", "team", "groupChat"],
-              "commands": [
-                  {
-                      "title": "Hi",
-                      "description": "Say hi to the bot."
-                  }
-              ]
-            }
         ]
         }
     ],

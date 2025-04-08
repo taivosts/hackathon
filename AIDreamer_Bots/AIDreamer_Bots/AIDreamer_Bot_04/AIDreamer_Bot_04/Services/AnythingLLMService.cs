@@ -9,6 +9,7 @@ public interface IAnythingLLMService
 
     Task<AnythingLLMModels> GetCompletionAsync(string prompt, string workspace = "attt", string sessionId = null, CancellationToken cancellationToken = default);
     Task<List<AnythingLLMWorkSpace>> GetWorkspacesAsync(CancellationToken cancellationToken = default);
+    Task<List<AnythingLLMWorkSpace>> GetWorkspacesByEmailAsync(string email, CancellationToken cancellationToken = default);
 }
 
 public class AnythingLLMService : IAnythingLLMService
@@ -67,6 +68,34 @@ public class AnythingLLMService : IAnythingLLMService
         try
         {
             var response = await _httpClient.GetAsync("api/v1/workspaces", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation($"API Response: {result}");
+
+            var workspaces = JsonSerializer.Deserialize<AnythingLLMWorkSpaceResponse>(result, _jsonOptions);
+            return workspaces.Workspaces;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in GetWorkspacesAsync");
+            return new List<AnythingLLMWorkSpace>();
+        }
+    }
+
+    public async Task<List<AnythingLLMWorkSpace>> GetWorkspacesByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return [];
+            }
+
+            var emailParts = email.Split('@');
+            var username = (emailParts.Length > 0 ? emailParts[0] : "").Replace(".", "_");
+
+            var response = await _httpClient.GetAsync($"api/v1/by-username/{username}/workspaces", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsStringAsync();

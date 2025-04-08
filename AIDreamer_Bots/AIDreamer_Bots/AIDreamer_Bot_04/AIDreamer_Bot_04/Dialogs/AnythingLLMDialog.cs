@@ -1,4 +1,6 @@
-﻿namespace AIDreamer_Bot_04.Dialogs;
+﻿using System.Text.Json;
+
+namespace AIDreamer_Bot_04.Dialogs;
 
 public class AnythingLLMDialog : ComponentDialog
 {
